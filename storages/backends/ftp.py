@@ -14,8 +14,8 @@
 # class FTPTest(models.Model):
 #     file = models.FileField(upload_to='a/b/c/', storage=fs)
 
-
-from . import unicode_ftplib as ftplib
+import ftplib
+from .unicode_ftplib import FTP
 
 import os
 from datetime import datetime
@@ -85,7 +85,7 @@ class FTPStorage(Storage):
 
         # Real reconnect
         if self._connection is None:
-            ftp = ftplib.FTP()
+            ftp = FTP()
             try:
                 ftp.connect(self._config['host'], self._config['port'])
                 ftp.login(self._config['user'], self._config['passwd'])
