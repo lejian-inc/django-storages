@@ -15,7 +15,20 @@
 #     file = models.FileField(upload_to='a/b/c/', storage=fs)
 
 import ftplib
-from .unicode_ftplib import FTP
+
+class FTP(ftplib.FTP):
+    """A ftplib.FTP subclass supporting unicode file names as described by RFC-2640."""
+    # debugging = 2
+
+    def putline(self, line):
+        if isinstance(line, unicode):
+            line = line.encode('utf8')
+        if '\r' in line or '\n' in line:
+            raise ValueError('an illegal newline character should not be contained')
+        line = line + ftplib.CRLF
+        if self.debugging > 1: print '*put*', self.sanitize(line)
+        self.sock.sendall(line)
+
 
 import os
 from datetime import datetime
