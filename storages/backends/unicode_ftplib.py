@@ -9,7 +9,10 @@ class FTP(ftplib.FTP):
    described by RFC-2640."""
 
     def putline(self, line):
-        line = line + '\r\n'
+        if '\r' in line or '\n' in line:
+            raise ValueError('an illegal newline character should not be contained')
+        line = line + CRLF
         if isinstance(line, unicode):
             line = line.encode('utf8')
+        if self.debugging > 1: print '*put*', self.sanitize(line)
         self.sock.sendall(line)
