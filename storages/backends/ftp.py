@@ -14,7 +14,9 @@
 # class FTPTest(models.Model):
 #     file = models.FileField(upload_to='a/b/c/', storage=fs)
 
-import ftplib
+
+from . import unicode_ftplib as ftplib
+
 import os
 from datetime import datetime
 
