@@ -16,3 +16,5 @@ class FTP(ftplib.FTP):
             line = line.encode('utf8')
         if self.debugging > 1: print '*put*', self.sanitize(line)
         self.sock.sendall(line)
+
+from ftplib import *
